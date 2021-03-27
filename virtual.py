@@ -11,7 +11,12 @@ import wolframalpha
 import json
 import requests
 from weather import *
+from musicplayer import *
+#from spotdl import *
 #import ask
+import subprocess
+from news import *
+import random
 
 print('warming up my vocal cords!')
 
@@ -51,7 +56,7 @@ def takeCommand():
             return "None"
         return statement
 
-speak("Warming up my voice")
+#speak("Warming up my voice")
 wishMe()
 
 
@@ -79,11 +84,29 @@ if __name__=='__main__':
             print(results)
             speak(results)
 
+        elif "how are you" in statement:
+            speak("I am fine, thank you for asking. how have you been?")
+            mood=takeCommand()
+            if "I am fine" in statement:
+                speak("that's good how may I assist you today")
+            elif 'I am not fine' in statement:
+                speak("What can I do to help you?")
+ 
         elif 'open youtube' in statement:
             webbrowser.open_new_tab("https://www.youtube.com")
             speak("youtube is open now")
             time.sleep(5)
-
+        elif 'flip a coin' in statement:
+            speak("flipping the coin")
+            flip=random.randint(0,1)
+                if flip==1:
+                    speak("it's tails")
+                else:    
+                    speak("it's heads")
+        elif "throw a dice" in statement or "generate a random number between 0 and 6"in statement:
+            number=random.randint(0,6)
+            speak(number)
+            
         elif 'open google' in statement:
             webbrowser.open_new_tab("https://www.google.com")
             speak("Google is open now")
@@ -93,14 +116,19 @@ if __name__=='__main__':
             webbrowser.open_new_tab("gmail.com")
             speak("Google Mail open now")
             time.sleep(5)
+        elif "I want to watch a movie" in statement:
+            webbrowser.open_new_tab("netflix.com")
+            speak("play something you like")
+            speak("wake me up when you are done")
+            break
 
         elif "what's the weather like today" in statement or "Should I carry an umbrella" in statement:
-            speak("Please type the city name")
-            cityname=input("Enter city name please: ")
-            sendweather(cityname)
+            speak("what's the city name")
+            #cityname=input("Enter city name please: ")
+            statement=takeCommand().lower()
+            sendweather(statement)
             speak("here take a look")
-            #speak(sendweather(current_temperature))
-            #execfile(weather.py)
+            time.sleep(10)
             
 
         elif 'time' in statement:
@@ -112,17 +140,13 @@ if __name__=='__main__':
 
 
         elif "who made you" in statement or "who created you" in statement or "who discovered you" in statement:
-            speak("I was built by Group 5")
-            print("I was built by Group 5")
-
-        elif "open stackoverflow" in statement:
-            webbrowser.open_new_tab("https://stackoverflow.com/login")
-            speak("Here is stackoverflow")
-
+            speak("I was built by Dhruv")
+            print("I was built by Dhruv")
         elif 'news' in statement:
+            speak("let me read the newspaper so that I can give you quick updates")
             news = webbrowser.open_new_tab("https://timesofindia.indiatimes.com/home/headlines")
-            speak('Here are some headlines from the Times of India,Happy reading')
-            time.sleep(6)
+            #speak('Here are some headlines from the Times of India,Happy reading')
+            time.sleep(45)
 
        # elif "camera" in statement or "take a photo" in statement:
           #  ec.capture(0,"robo camera","img.jpg")
@@ -131,9 +155,47 @@ if __name__=='__main__':
             statement = statement.replace("search", "")
             webbrowser.open_new_tab(statement)
             time.sleep(5)
+            
+        elif "remind me" in statement or "set a reminder" in statement:
+            speak("what is it that you want me to remind you about")
+            remindme=takeCommand()
+            speak("I will remind you when the time comes")
+            
+        elif "add" in statement or "sum" in statement or "multiplication" in statement:
+            speak("Let me bring up the calculator")
+            subprocess.Popen('C:\\Windows\\System32\\calc.exe')
+            time.sleep(20)
+           
+        elif 'I want to watch a TV show' in statement:
+            speak("PLease tell me the name of the show")
+            tvshow=takeCommand()
+            speak("hang on let me play it")
+            webbrowser.open_new_tab("http://192.168.29.180:8096/web/index.html#!/tv?serverId=50747af2f34341ab88a600eacc2d1b27&parentId=6c2a057148b4d7c20a207c789aba6d07")
+           
+        elif "download from spotify" in statement:
+            speak("Please say the name of the song")
+            songname=takeCommand()
+            os.system('cmd /c "spotdl "'+songname)
+            speak("song is downloaded")
+           # speak("Playing the song")
+           # os.startfile(songname+'.mp3')
+            
+        elif "play some music" in statement:
+            speak("tell me the name of the song")
+            localsong=takeCommand()
+            musicplayer(localsong)
 
+        elif "log off" in statement or "sign out" in statement:
+            speak("Ok , your pc will log off in 10 sec make sure you exit from all applications")
+            subprocess.call(["shutdown", "/l"])
+
+       # elif "convert this video file please":
+        #    speak("tell me the name of the file")
+         #   videofile=input("type the name")
+          #  os.system('cmd /c "ffmpeg"'+videofile)
+            
+              
        # elif 'ask' in statement:
-          #  execfile(ask.py)
            # speak('I can answer to computational and geographical questions and what question do you want to ask now')
            # question=takeCommand()
            # app_id="R2K75H-7ELALHR35X"
@@ -142,15 +204,6 @@ if __name__=='__main__':
            # answer = next(res.results).text
            # speak(answer)
            # print(answer)
-        elif "play on spotify" in statement:
-            speak("Please type the name of the song")
-            songname=input("Name of the song is: ")
-            speak("currently under integration please check back later")
-
-
-        elif "log off" in statement or "sign out" in statement:
-            speak("Ok , your pc will log off in 10 sec make sure you exit from all applications")
-            subprocess.call(["shutdown", "/l"])
 
 time.sleep(3)
 

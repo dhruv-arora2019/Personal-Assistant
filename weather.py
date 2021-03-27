@@ -5,6 +5,7 @@
 # import required modules 
 import requests, json 
 
+
 def sendweather(city_name):
         
     
@@ -73,7 +74,8 @@ def sendweather(city_name):
             "\n description = " +
                         str(weather_description)) 
     #sendweather(str(current_temperature),str(current_humidiy),str(current_pressure),str(description))
-    
+        from virtual import speak
+        speak("temprature is"+ str(current_temperature)+"and current pressure is"+str(current_pressure)+"and current humidity is"+str(current_humidiy))
     else: 
         print(" City Not Found ") 
 
