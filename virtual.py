@@ -174,8 +174,7 @@ if __name__=='__main__':
             songname=takeCommand()
             os.system('cmd /c "spotdl "'+songname)
             speak("song is downloaded")
-           # speak("Playing the song")
-           # os.startfile(songname+'.mp3')
+           
             
         elif "play some music" in statement:
             speak("tell me the name of the song")
@@ -188,18 +187,23 @@ if __name__=='__main__':
         
         elif "send a mail" in statement:
             speak("what do you want to write?")
-            
+            speak("unable to contact servers please try again after some time")
+            time.sleep(2)
             
         elif "add items to shopping list" in statement:
             speak("hang on")
             speak("okay tell me do you want to create new list or update old one")
+            
             if "update old one" in statement:
                 speak("wait let me bring up your old list")
                 speak("unable to reach your shopping list. Error 404")
-                
+                print("fatal error occurred. Restart me.")
+                break
             elif "create new one" in statement:
                 speak("okay tell me what you want to buy this time")
                 speak("unable to make a new list. Error 503")
+                print("fatal error")
+                break
                 
         elif 'open youtube' in statement:
             webbrowser.open_new_tab("https://www.youtube.com")
