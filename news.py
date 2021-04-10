@@ -1,5 +1,5 @@
 import os
 import time
 from virtual import *
-def news(todaysheadlines):
+def news():
     speak("Today's headlines are as follows")

@@ -2,11 +2,7 @@ import requests
 import vlc
 from time import sleep
 urls = [
-    'http://network.absoluteradio.co.uk/core/audio/aacplus/live.pls?service=acbb',
-    'file:///home/rolf/test.m3u',
-    'file:///home/rolf/happy.mp3',
-    'http://statslive.infomaniak.ch/playlist/energy90s/energy90s-high.mp3/playlist.pls',
-    'http://streaming.radio.rtl2.fr/rtl2-1-44-128',
+    'file:///D/songs/song.mp3'
     ]
 
 playlists = set(['pls','m3u'])

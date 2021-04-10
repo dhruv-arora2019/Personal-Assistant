@@ -15,8 +15,12 @@ from musicplayer import *
 #from spotdl import *
 #import ask
 import subprocess
-from news import *
+#from news import *
 import random
+from ask import *
+#from sendmail import *
+#from shoppingcart import *
+#from vlcplaylist import *
 
 print('warming up my vocal cords!')
 
@@ -69,12 +73,10 @@ if __name__=='__main__':
         if statement==0:
             continue
 
-        if "goodbye" in statement or "ok bye" in statement or "stop" in statement:
+        if "goodbye" in statement or "ok bye" in statement or "stop" or "nothing else" or "nothing" in statement:
             speak('yay! I am done for the day')
             print('Goodbye, talk to you soon!')
             break
-
-
 
         if 'wikipedia' in statement:
             speak('Searching Wikipedia...')
@@ -91,21 +93,17 @@ if __name__=='__main__':
                 speak("that's good how may I assist you today")
             elif 'I am not fine' in statement:
                 speak("What can I do to help you?")
- 
-        elif 'open youtube' in statement:
-            webbrowser.open_new_tab("https://www.youtube.com")
-            speak("youtube is open now")
-            time.sleep(5)
+
         elif 'flip a coin' in statement:
             speak("flipping the coin")
             flip=random.randint(0,1)
-                if flip==1:
-                    speak("it's tails")
-                else:    
-                    speak("it's heads")
-        elif "throw a dice" in statement or "generate a random number between 0 and 6"in statement:
-            number=random.randint(0,6)
-            speak(number)
+            if flip==1:
+                speak("it's tails")
+            else:    
+                speak("it's heads")
+      #  elif "throw a dice" in statement or "generate a random number between 0 and 6"in statement:
+         #   number=random.randint(0,6)
+           # speak(number)
             
         elif 'open google' in statement:
             webbrowser.open_new_tab("https://www.google.com")
@@ -128,6 +126,7 @@ if __name__=='__main__':
             statement=takeCommand().lower()
             sendweather(statement)
             speak("here take a look")
+            webbrowser.open_new_tab('https://www.windy.com/-Rain-thunder-rain?rain,26.915,75.819,11')
             time.sleep(10)
             
 
@@ -142,14 +141,12 @@ if __name__=='__main__':
         elif "who made you" in statement or "who created you" in statement or "who discovered you" in statement:
             speak("I was built by Dhruv")
             print("I was built by Dhruv")
+            
         elif 'news' in statement:
             speak("let me read the newspaper so that I can give you quick updates")
             news = webbrowser.open_new_tab("https://timesofindia.indiatimes.com/home/headlines")
             #speak('Here are some headlines from the Times of India,Happy reading')
             time.sleep(45)
-
-       # elif "camera" in statement or "take a photo" in statement:
-          #  ec.capture(0,"robo camera","img.jpg")
 
         elif 'search'  in statement:
             statement = statement.replace("search", "")
@@ -188,22 +185,40 @@ if __name__=='__main__':
         elif "log off" in statement or "sign out" in statement:
             speak("Ok , your pc will log off in 10 sec make sure you exit from all applications")
             subprocess.call(["shutdown", "/l"])
-
-       # elif "convert this video file please":
-        #    speak("tell me the name of the file")
-         #   videofile=input("type the name")
-          #  os.system('cmd /c "ffmpeg"'+videofile)
+        
+        elif "send a mail" in statement:
+            speak("what do you want to write?")
             
-              
-       # elif 'ask' in statement:
-           # speak('I can answer to computational and geographical questions and what question do you want to ask now')
-           # question=takeCommand()
-           # app_id="R2K75H-7ELALHR35X"
-           # client = wolframalpha.Client('R2K75H-7ELALHR35X')
-           # res = client.query(question)
-           # answer = next(res.results).text
-           # speak(answer)
-           # print(answer)
+            
+        elif "add items to shopping list" in statement:
+            speak("hang on")
+            speak("okay tell me do you want to create new list or update old one")
+            if "update old one" in statement:
+                speak("wait let me bring up your old list")
+                speak("unable to reach your shopping list. Error 404")
+                
+            elif "create new one" in statement:
+                speak("okay tell me what you want to buy this time")
+                speak("unable to make a new list. Error 503")
+                
+        elif 'open youtube' in statement:
+            webbrowser.open_new_tab("https://www.youtube.com")
+            speak("youtube is open now")
+            time.sleep(5)
+            
+        elif "convert this video file please":
+            speak("tell me the name of the file")
+            videofile=input("type the name with extension")
+            final=input("type the format in which you want the video")
+            os.system('cmd /c "ffmpeg -i"'+videofile+" "+final)
+        
+        elif "search on wolframalpha" in statement or "calculate" in statement or "ask" in statement:
+            speak("hang on let me connect to wolframalpha")
+            ask()
+            time.sleep(5)
+            
+        # elif "camera" in statement or "take a photo" in statement:
+          #  ec.capture(0,"robo camera","img.jpg")      
 
 time.sleep(3)
 
