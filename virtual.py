@@ -6,28 +6,27 @@ import webbrowser
 import os
 import time
 import subprocess
-#from ecapture import ecapture as ec
 import wolframalpha
 import json
 import requests
-from weather import *
-from musicplayer import *
-#from spotdl import *
-#import ask
+from weather import sendweather
+from musixplayer2 import musicplayer2
 import subprocess
-#from news import *
 import random
-from ask import *
-#from sendmail import *
-#from shoppingcart import *
-#from vlcplaylist import *
+from MyMail import *
+from automate_whatsapp import *
+from reminder import *
+from SimpNote import *
+#from Face_detection import *
+#from face import *
+
 
 print('warming up my vocal cords!')
 
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 engine.setProperty('voice','voices[0].id')
-
+                         
 
 def speak(text):
     engine.say(text)
@@ -49,7 +48,9 @@ def takeCommand():
     r=sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
+
         audio=r.listen(source)
+
 
         try:
             statement=r.recognize_google(audio,language='en-in')
@@ -60,7 +61,7 @@ def takeCommand():
             return "None"
         return statement
 
-#speak("Warming up my voice")
+
 wishMe()
 
 
@@ -70,10 +71,11 @@ if __name__=='__main__':
     while True:
         speak("Tell me how can I help you?")
         statement = takeCommand().lower()
+        
         if statement==0:
             continue
 
-        if "goodbye" in statement or "ok bye" in statement or "stop" or "nothing else" or "nothing" in statement:
+        if "goodbye" in statement or "ok bye" in statement or "nothing else" in statement:
             speak('yay! I am done for the day')
             print('Goodbye, talk to you soon!')
             break
@@ -92,7 +94,7 @@ if __name__=='__main__':
             if "I am fine" in statement:
                 speak("that's good how may I assist you today")
             elif 'I am not fine' in statement:
-                speak("What can I do to help you?")
+                speak("Oh no!,What can I do to help you?")
 
         elif 'flip a coin' in statement:
             speak("flipping the coin")
@@ -101,9 +103,6 @@ if __name__=='__main__':
                 speak("it's tails")
             else:    
                 speak("it's heads")
-      #  elif "throw a dice" in statement or "generate a random number between 0 and 6"in statement:
-         #   number=random.randint(0,6)
-           # speak(number)
             
         elif 'open google' in statement:
             webbrowser.open_new_tab("https://www.google.com")
@@ -114,21 +113,20 @@ if __name__=='__main__':
             webbrowser.open_new_tab("gmail.com")
             speak("Google Mail open now")
             time.sleep(5)
+            
         elif "I want to watch a movie" in statement:
             webbrowser.open_new_tab("netflix.com")
             speak("play something you like")
             speak("wake me up when you are done")
-            break
+            time.sleep(100)
 
         elif "what's the weather like today" in statement or "Should I carry an umbrella" in statement:
             speak("what's the city name")
-            #cityname=input("Enter city name please: ")
             statement=takeCommand().lower()
             sendweather(statement)
             speak("here take a look")
             webbrowser.open_new_tab('https://www.windy.com/-Rain-thunder-rain?rain,26.915,75.819,11')
             time.sleep(10)
-            
 
         elif 'time' in statement:
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
@@ -139,13 +137,12 @@ if __name__=='__main__':
 
 
         elif "who made you" in statement or "who created you" in statement or "who discovered you" in statement:
-            speak("I was built by Dhruv")
-            print("I was built by Dhruv")
+            speak("I was built by Group 5")
+            print("I was built by Group 5")
             
-        elif 'news' in statement:
+        elif 'news' in statement or "What are the today's headlines" in statement:
             speak("let me read the newspaper so that I can give you quick updates")
             news = webbrowser.open_new_tab("https://timesofindia.indiatimes.com/home/headlines")
-            #speak('Here are some headlines from the Times of India,Happy reading')
             time.sleep(45)
 
         elif 'search'  in statement:
@@ -167,19 +164,18 @@ if __name__=='__main__':
             speak("PLease tell me the name of the show")
             tvshow=takeCommand()
             speak("hang on let me play it")
-            webbrowser.open_new_tab("http://192.168.29.180:8096/web/index.html#!/tv?serverId=50747af2f34341ab88a600eacc2d1b27&parentId=6c2a057148b4d7c20a207c789aba6d07")
+            webbrowser.open_new_tab("www.netflix.com")
            
         elif "download from spotify" in statement:
             speak("Please say the name of the song")
             songname=takeCommand()
             os.system('cmd /c "spotdl "'+songname)
-            speak("song is downloaded")
-           
+            speak("song is downloaded")           
             
         elif "play some music" in statement:
-            speak("tell me the name of the song")
-            localsong=takeCommand()
-            musicplayer(localsong)
+        #     speak("hang on let me try")
+   #         localsong=takeCommand()
+             musicplayer2()
 
         elif "log off" in statement or "sign out" in statement:
             speak("Ok , your pc will log off in 10 sec make sure you exit from all applications")
@@ -193,37 +189,49 @@ if __name__=='__main__':
         elif "add items to shopping list" in statement:
             speak("hang on")
             speak("okay tell me do you want to create new list or update old one")
-            
-            if "update old one" in statement:
+            shop=takeCommand()
+            if "update old one" in shop:
                 speak("wait let me bring up your old list")
                 speak("unable to reach your shopping list. Error 404")
                 print("fatal error occurred. Restart me.")
-                break
-            elif "create new one" in statement:
+                
+            elif "create new one" in shop:
                 speak("okay tell me what you want to buy this time")
                 speak("unable to make a new list. Error 503")
                 print("fatal error")
-                break
+                
                 
         elif 'open youtube' in statement:
             webbrowser.open_new_tab("https://www.youtube.com")
             speak("youtube is open now")
             time.sleep(5)
             
-        elif "convert this video file please":
+        elif "convert this video file please" in statement:
             speak("tell me the name of the file")
             videofile=input("type the name with extension")
             final=input("type the format in which you want the video")
             os.system('cmd /c "ffmpeg -i"'+videofile+" "+final)
         
-        elif "search on wolframalpha" in statement or "calculate" in statement or "ask" in statement:
+        elif "search on wolframalpha" in statement or "ask" in statement:
             speak("hang on let me connect to wolframalpha")
-            ask()
-            time.sleep(5)
+            speak('I can answer to computational and geographical questions')
+            question = takeCommand()
+            app_id = "29R7PV-X9K3U8X5ET"
+            client = wolframalpha.Client(app_id)
+            res = client.query(question)
+            answer = next(res.results).text
+            speak(answer)
+            print(answer)
+        
+        elif "webcam" in statement or "camera" in statement or "take photo" in statement or "capture photo" in statement:
+            speak("Opening webcam")
+            face()
             
-        # elif "camera" in statement or "take a photo" in statement:
-          #  ec.capture(0,"robo camera","img.jpg")      
-
+        elif "whatsapp" in statement or "send a message" in statement:
+            speak("okay as you wish")
+            automateWhatsapp()
+            
+        
 time.sleep(3)
 
 
